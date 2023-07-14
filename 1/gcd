@@ -1,1 +1,56 @@
+//not completed
+#include<stdio.h>
 
+int gcd(int m, int n){
+    int r,c=0;
+    while(n!=0){
+        r=m%n;
+        m=n;
+        n=r;
+        c++;
+    }
+    printf("GCD of the given 2 numbers=%d\n",m);
+    return c;
+}
+
+int cons_int_check(int m, int n){
+    int t,c=0;
+    if(m>n)
+        t=n;
+    else
+        t=m;
+    while(t!=0){
+        c++;
+        if(m%t==0)
+            if(n%t==0)
+                return c;
+        t--;
+    }
+    return c;
+}
+
+int modified(int m,int n){
+    int temp,c=0;
+    while(n>0){
+        c++;
+        if(n>m){
+            temp=m;
+            m=n;
+            n=temp;
+        }
+        m=m-n;
+    }
+    return c;
+}
+
+void main(){
+    int m,n,c,x=0;
+    FILE *fptr;
+    fptr=fopen("gcddata.txt"."a");
+    
+    c=gcd(m,n);
+    c=cons_int_check(m,n);
+    c=modified(m,n);
+
+    fclose(fptr);
+}
