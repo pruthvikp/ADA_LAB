@@ -6,7 +6,7 @@ int gcd(int m, int n){
     while(n!=0){
         r=m%n;
         m=n;
-        n=r;
+        n=r; 
         c++;
     }
     printf("GCD of the given 2 numbers=%d\n",m);
