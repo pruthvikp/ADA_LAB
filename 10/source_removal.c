@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+//LEgand
 int a[100][100];
 int in[100], v[100], s[100], t[100]; //
 int f = 0, r = -1;                   //
