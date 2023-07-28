@@ -1,9 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int vis[10],cnt=0,cyc=0,con=0;
+int vis[10],cnt=0,cyc=0,con=0,trav[10];
 
 void dfs(int n,int a[n][n],int v,int p){
+    trav[cnt]=v;
     cnt=cnt+1;
     printf("-->%c ",v+65);
     vis[v]=cnt;
@@ -32,7 +33,7 @@ void DFS(int n,int a[n][n]){
         printf("\nGraph is disconnected and the above are the connected components\n");
     }
     if(con==0)
-        printf("\nGraph is connected\n");
+        printf("\nGraph is connected and the above is the order of DFS traversal\n");
 }
 
 int main(){
@@ -46,12 +47,19 @@ int main(){
     for(i=0;i<n;i++)
         for(j=0;j<n;j++)
                 scanf("%d",&a[i][j]);
-                
+    printf("the adjacency matrix is:\n");
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++)
+                printf("%d ",a[i][j]);
+        printf("\n");
+    }
     DFS(n,a);
-    printf("The DFS order of traversal is\n");
-    for(int i=0;i<n;i++)
-        printf("-->%c",vis[i]+64);
-    printf("\n");
+    if(con==1){
+        printf("The DFS order of traversal is\n");
+        for(int i=0;i<n;i++)
+            printf("-->%c",trav[i]+65);
+        printf("\n");
+    }
     if(cyc==1)
         printf("Cycle exists\n");
     else
