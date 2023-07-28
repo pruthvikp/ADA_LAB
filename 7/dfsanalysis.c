@@ -1,28 +1,29 @@
-//not working
-
 #include<stdio.h>
 #include<stdlib.h>
-//boc=basic opn cnt
-int a[4][4],n,vis[10],cnt=0,cyc=0,con=0,boc;
 
-void generate(int ch){
+int vis[15],cnt,cyc,con,trav[15],boc;
+
+int generate(int n,int a[n][n],int ch){
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
             if(ch==0){
-                if(i==j){
-                    a[i][j]=0;}
-                else a[i][j]=1;
+                if((i+1)==j)
+                    a[i][j]=1;
+                else 
+                    a[i][j]=0;
             }
             else{
-                if(i==j-1)
+                if(i==j)
+                    a[i][j]=0;
+                else
                     a[i][j]=1;
-                else {a[i][j]=0;}
             }
         }
     }
 }
 
-void dfs(int v,int p){
+void dfs(int n,int a[n][n],int v,int p){
+    trav[cnt]=v;
     cnt=cnt+1;
     printf("-->%c ",v+65);
     vis[v]=cnt;
@@ -32,92 +33,63 @@ void dfs(int v,int p){
             if(vis[w]!=0 && w!=p)
                 cyc=1;
             if(vis[w]==0) 
-                dfs(w,v);
+                dfs(n,a,w,v);
         }
     }
 }
 
-void DFS(){
+void DFS(int n,int a[n][n]){
     for(int v=0;v<n;v++)
         vis[v]=0;
-    dfs(0,-1);
+    dfs(n,a,0,-1);
     if(cnt!=n){
         for(int v=1;v<n;v++){
             if(vis[v]==0){
                 con=1;
                 printf("\n");
-                dfs(v,-1);
+                dfs(n,a,v,-1);
             }
         }
         printf("\nGraph is disconnected and the above are the connected components\n");
     }
     if(con==0)
-        printf("\nGraph is connected\n");
+        printf("\nGraph is connected and the above is the order of DFS traversal\n");
 }
 
-
-
 int main(){
-    int n=4,j,i;
+    int n=4,j,i,ch;
     FILE *fptr;
     fptr=fopen("dfsdata.txt","a");
-    while(n<5){
-        //BEST CASE
-        printf("BEST CASE\nThe matrix is:\n");
-        for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            
-            // if(ch==0){
-                if(i==j-1)
-                    a[i][j]=1;
-                else a[i][j]=0;
-        }
-    }
+    while(n<11){
+    int a[n][n];
+    for(ch=0;ch<2;ch++){
+        cnt=0,cyc=0,con=0,boc=0;
+        generate(n,a,ch);
+        if(ch==0)
+            printf("\nBEST CASE\n");
+        else 
+            printf("\nWORST CASE\n");
+        printf("The adjacency matrix is:\n");
         for(i=0;i<n;i++){
-            for(j=0;j<n;j++){
-                printf("%d\t",a[i][j]);}
+            for(j=0;j<n;j++)
+                    printf("%d ",a[i][j]);
             printf("\n");
         }
-        boc=0;            
-        DFS();
+        DFS(n,a);
         fprintf(fptr,"%d\t%d\t",n,boc);
-        printf("The DFS order of traversal is\n");
-        for(int i=0;i<n;i++)
-            printf("-->%c",vis[i]+64);
-        printf("\n");
-        if(cyc==1)
-            printf("Cycle exists\n");
-        else
-            printf("Cycle does not exist\n");
-        //WORST CASE
-        printf("WORST CASE\nThe matrix is:\n");
-for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            
-            // if(ch==0){
-                if(i==j)
-                    a[i][j]=0;
-                else a[i][j]=1;
-        }
-    }        for(i=0;i<n;i++){
-            for(j=0;j<n;j++){
-                printf("%d ",a[i][j]);}
+        if(con==1){
+            printf("The DFS order of traversal is\n");
+            for(int i=0;i<n;i++)
+                printf("-->%c",trav[i]+65);
             printf("\n");
         }
-        boc=0;            
-        DFS();
-        fprintf(fptr,"%d\n",boc);
-        printf("The DFS order of traversal is\n");
-        for(int i=0;i<n;i++)
-            printf("-->%c",vis[i]+64);
-        printf("\n");
         if(cyc==1)
             printf("Cycle exists\n");
         else
             printf("Cycle does not exist\n");
-
-        n++;
+        printf("Basic operation count=%d\n",boc);
     }
-    
-    fclose(fptr);
+    fprintf(fptr,"\n");
+    n++;
+    }
 }
