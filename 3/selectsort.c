@@ -11,7 +11,7 @@ int selectionSort(int *a,int n){
     int i,j,min,count=0;
     for(i=0;i<n-1;i++){
         min=i;
-        for(j=i+1;j<n-1;j++){
+        for(j=i+1;j<n;j++){
             count++;
             if(a[j]<a[min])
                 min=j;
