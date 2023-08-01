@@ -21,7 +21,7 @@ int heapify(){
     }
 }
 
-void heap(){
+void sinkdown(){
     int pi=1,PV=H[1],heap=0;
     while(!heap && 2*pi<=n){
         int ci=2*pi;
@@ -44,7 +44,7 @@ void heapsort(){
         H[1] = H[n];
         H[n] = temp;
         n=n-1;
-        heap();
+        sinkdown();
     }
 }
 
