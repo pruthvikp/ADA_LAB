@@ -11,10 +11,8 @@ void topologicalSort(int v){
     path[v]=1;
     for(int w=0;w<n;w++){
         if(a[v][w]==1){
-            if(vis[w]==1 && path[w]==1){
+            if(vis[w]==1 && path[w]==1)
                 cyc=1;
-                
-            }
             if(vis[w]==0)
                 topologicalSort(w);
         }
