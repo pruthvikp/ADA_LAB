@@ -1,0 +1,7 @@
+set title "Floyd plot"
+set xrange[0:10]
+set yrange[0:1000]
+set xlabel "Number of elements(n)"
+set ylabel "Count of basic operation(c)"
+set style data linespoints
+plot "floyddata.txt" u 1:2 w l
