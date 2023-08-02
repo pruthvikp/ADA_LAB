@@ -1,8 +1,28 @@
-//gcc mergesort.c -lm
+//gcc mergesort.c -lm 
     
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+
+void worst(int *arr,int beg,int end){
+    if(beg<end){
+        int mid,i,j,n1,n2;
+        mid=(beg+end)/2;
+        n1=mid-beg+1;
+        n2=end-mid;
+        int L[n1],R[n2];
+        for(i=0;i<n1;i++)
+            L[i]=arr[(i*2)];
+        for(j=0;j<n2;j++)
+            R[j]=arr[(j*2)+1];
+        worst(L,beg,mid);
+        worst(R,mid+1,end);
+        for(i=0;i<n1;i++)
+            arr[i]=L[i];
+        for(j=0;j<n2;j++)
+            arr[j+i]=R[j];
+    }
+}
 
 int merge(int *a,int beg,int mid,int end,int c){
     int n1=mid-beg+1;
@@ -57,22 +77,24 @@ int main(){
         c=mergeSort(a,0,n-1,c);
         fprintf(fptr,"%d\t",c);
         //WORST CASE
-        int i,j,k=1,temp,c=0;
-        for(i=0,j=n/2;i<n/2;i++,j++){
-            a[i]=k;
-            a[j]=k+1;
-            k+=2;
-        }
-        for(i=1,j=n/2-2;i<j;i+=2,j-=2){
-            temp=a[i];
-            a[i]=a[j];
-            a[j]=temp;
-        }
-        for(i=n/2+1,j=n-2;i<j;i+=2,j-=2){
-            temp=a[i];
-            a[i]=a[j];
-            a[j]=temp;
-        }
+        // int i,j,k=1,temp,c=0;
+        // for(i=0,j=n/2;i<n/2;i++,j++){
+        //     a[i]=k;
+        //     a[j]=k+1;
+        //     k+=2;
+        // }
+        // for(i=1,j=n/2-2;i<j;i+=2,j-=2){
+        //     temp=a[i];
+        //     a[i]=a[j];
+        //     a[j]=temp;
+        // }
+        // for(i=n/2+1,j=n-2;i<j;i+=2,j-=2){
+        //     temp=a[i];
+        //     a[i]=a[j];
+        //     a[j]=temp;
+        // }
+        c=0;
+        worst(a,0,n-1);
         c=mergeSort(a,0,n-1,c);
         fprintf(fptr,"%d\n",c);
     }
